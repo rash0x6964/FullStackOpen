@@ -1,1 +1,1 @@
-#my submissions (fullstackopen)
+my submissions (fullstackopen)
