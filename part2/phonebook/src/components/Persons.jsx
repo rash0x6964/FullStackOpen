@@ -1,18 +1,30 @@
-const SinglePerson = ({ name, number }) => {
+const SinglePerson = ({ name, number, buttonFun }) => {
   return (
-    <p>
-      {name} {number}
-    </p>
+    <tr>
+      <td>
+        {name} {number}
+      </td>
+      <td>
+        <button onClick={buttonFun}>delete</button>
+      </td>
+    </tr>
   )
 }
 
-const Persons = ({ array }) => {
+const Persons = ({ array, deleteFun }) => {
   return (
-    <div>
-      {array.map((item) => (
-        <SinglePerson key={item.name} name={item.name} number={item.number} />
-      ))}
-    </div>
+    <table>
+      <tbody>
+        {array.map((item) => (
+          <SinglePerson
+            key={item.name}
+            name={item.name}
+            number={item.number}
+            buttonFun={() => deleteFun(item)}
+          />
+        ))}
+      </tbody>
+    </table>
   )
 }
 
