@@ -17,7 +17,7 @@ const Persons = ({ array, deleteFun }) => {
       <tbody>
         {array.map((item) => (
           <SinglePerson
-            key={item.name}
+            key={item.id}
             name={item.name}
             number={item.number}
             buttonFun={() => deleteFun(item)}

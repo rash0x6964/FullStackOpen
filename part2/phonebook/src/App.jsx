@@ -3,19 +3,15 @@ import Filter from "./components/Filter"
 import PersonForm from "./components/PersonForm"
 import Persons from "./components/Persons"
 import personService from "./services/persons"
-import './index.css'
+import "./index.css"
 
 const Notification = ({ message }) => {
-	if (message === null) {
-	  return null
-	}
-
-	return (
-	  <div className='error'>
-		{message}
-	  </div>
-	)
+  if (message === null) {
+    return null
   }
+
+  return <div className="error">{message}</div>
+}
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -39,24 +35,30 @@ const App = () => {
       personService.addPerson(newObj).then((data) => {
         setPersons(persons.concat(data))
       })
-      setPersons(persons.concat(newObj))
+      //   setPersons(persons.concat(newObj))
 
-	  setErrorMessage(`Added ${newObj.name}`)
-	  setTimeout(() => {
-		setErrorMessage(null)
-	  }, 5000)
-
+      setErrorMessage(`Added ${newObj.name}`)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     } else {
-      alert(`${newName} is already added to phonebook`)
+      const person = persons.find((n) => n.name === newName)
+      const updatedPerson = { ...person, number: newNumber }
+
+      personService.updatePerson(updatedPerson).then((data) => {
+        setPersons(
+          persons.map((item) => (item.id !== person.id ? item : data))
+        )
+      })
     }
     setNewName("")
     setNewNumber("")
   }
 
-  const deleteNewObj = (note) => {
-    if (confirm(`Delete ${note.name} ?`)) {
-      personService.deletePerson(note.id).then(() => {
-        setPersons(persons.filter((item) => item.id != note.id))
+  const deleteNewObj = (person) => {
+    if (confirm(`Delete ${person.name} ?`)) {
+      personService.deletePerson(person.id).then(() => {
+        setPersons(persons.filter((item) => item.id != person.id))
       })
     }
   }
@@ -80,7 +82,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-	  <Notification message={errorMessage}/>
+      <Notification message={errorMessage} />
       <Filter fun={handleFilterChange} state={newFilter} />
       <h3>Add a new</h3>
       <PersonForm
