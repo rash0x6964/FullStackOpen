@@ -1,0 +1,14 @@
+GET http://localhost:3003/api/blogs HTTP/1.1
+
+
+###
+
+POST http://localhost:3003/api/blogs HTTP/1.1
+content-type: application/json
+
+{
+	"title": "the big house",
+	"author": "someone",
+	"url": "https://localhost/books/23",
+	"likes": "100"
+}
